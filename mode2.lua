@@ -1264,7 +1264,13 @@ function courseplay:unload_combine(vehicle, dt)
 
 		vehicle.cp.TrafficBrake = false
 		if (vehicle.cp.modeState == STATE_FOLLOW_TARGET_WPS and not vehicle.cp.curTarget.turn and not vehicle.cp.curTarget.rev ) or vehicle.cp.modeState == STATE_DRIVE_TO_COMBINE then   
-			lx, lz = courseplay:isTheWayToTargetFree(vehicle, lx, lz)
+      local tx, tz
+      if #vehicle.cp.nextTargets > 1 then
+        tx, tz = vehicle.cp.nextTargets[ 2 ].x, vehicle.cp.nextTargets[ 1 ].z
+      else
+        tx, tz = vehicle.cp.curTarget.x, vehicle.cp.curTarget.z 
+      end
+			lx, lz = courseplay:isTheWayToTargetFree(vehicle, lx, lz, tx, tz )
 		end
 		
 		courseplay:setTrafficCollision(vehicle, lx, lz,true)
